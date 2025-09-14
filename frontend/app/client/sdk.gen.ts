@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { RootHealthGetResponse } from './types.gen';
+import type { RootHealthGetResponse, ServeFrontendPathGetData, ServeFrontendPathGetResponse } from './types.gen';
 
 export class DefaultService {
     /**
@@ -16,6 +16,27 @@ export class DefaultService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/health'
+        });
+    }
+    
+    /**
+     * Serve Frontend
+     * Serve the frontend application. Return 404 if the file does not exist.
+     * @param data The data for the request.
+     * @param data.path
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static serveFrontendPathGet(data: ServeFrontendPathGetData): CancelablePromise<ServeFrontendPathGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/{path}',
+            path: {
+                path: data.path
+            },
+            errors: {
+                422: 'Validation Error'
+            }
         });
     }
     

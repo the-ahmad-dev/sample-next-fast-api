@@ -5,16 +5,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from backend.core.config import settings
+
 # Initialize FastAPI app
-app = FastAPI(title="Sample App")
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    version=settings.VERSION,
+    debug=settings.DEBUG,
+)
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Frontend URL
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=settings.cors_origins_list,
+    allow_credentials=settings.CORS_ALLOW_CREDENTIALS,
+    allow_methods=settings.cors_methods_list,
+    allow_headers=(
+        [settings.CORS_ALLOW_HEADERS]
+        if settings.CORS_ALLOW_HEADERS == "*"
+        else settings.CORS_ALLOW_HEADERS
+    ),
 )
 
 
@@ -22,9 +32,9 @@ app.add_middleware(
 async def root():
     """Root endpoint - API health check"""
     return {
-        "message": "Sample App API is running",
+        "message": f"{settings.PROJECT_NAME} API is running",
         "status": "healthy",
-        "version": "1.0.0",
+        "version": settings.VERSION,
     }
 
 
@@ -64,4 +74,9 @@ async def serve_frontend(path: str = ""):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="localhost", port=8000, reload=True)
+    uvicorn.run(
+        "main:app",
+        host=settings.HOST,
+        port=settings.PORT,
+        reload=settings.RELOAD,
+    )
