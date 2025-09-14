@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     PORT: int
     RELOAD: bool
 
+    # Request Limits
+    MAX_REQUEST_SIZE: int = 10 * 1024 * 1024  # 10MB default
+
     @property
     def cors_origins_list(self) -> List[str]:
         """Parse comma-separated CORS origins into a list."""
