@@ -1,0 +1,108 @@
+# ===========================================
+# Environment & Configuration Files
+# ===========================================
+.env
+.env.*
+!.env.example
+!.example.env
+
+# ===========================================
+# Logs & Debug Files
+# ===========================================
+*.log
+app.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ===========================================
+# Cache & Temporary Files
+# ===========================================
+.cache
+.temp
+*.tmp
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+
+# ===========================================
+# IDE & Editor Files
+# ===========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# ===========================================
+# Python Environment & Cache
+# ===========================================
+venv/
+.venv/
+env/
+.env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ===========================================
+# Node.js Dependencies & Cache
+# ===========================================
+node_modules/
+.npm
+.yarn/
+.pnp.*
+yarn-error.log
+
+# ===========================================
+# Next.js & Build Artifacts
+# ===========================================
+.next/
+out/
+build/
+dist/
+.vercel
+next-env.d.ts
+
+# ===========================================
+# Database & Storage
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+data/
+uploads/
+
+# ===========================================
+# API & Generated Files
+# ===========================================
+openapi.json
+*.generated.*
+
+# ===========================================
+# Testing & Coverage
+# ===========================================
+coverage/
+.nyc_output/
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# ===========================================
+# Docker & Container Files
+# ===========================================
+Dockerfile.local
+docker-compose.override.yml
+
+# ===========================================
+# Package Manager Locks (keep main ones)
+# ===========================================
+# Keep: package-lock.json, yarn.lock, pnpm-lock.yaml

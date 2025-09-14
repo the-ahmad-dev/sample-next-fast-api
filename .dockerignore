@@ -1,0 +1,119 @@
+# ===========================================
+# Git & Version Control
+# ===========================================
+.git
+.gitignore
+
+# ===========================================
+# Logs & Debug Files
+# ===========================================
+*.log
+app.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ===========================================
+# Cache & Temporary Files
+# ===========================================
+.cache
+.temp
+*.tmp
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+
+# ===========================================
+# IDE & Editor Files
+# ===========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# ===========================================
+# Documentation & Markdown
+# ===========================================
+README.md
+*.md
+docs/
+
+# ===========================================
+# Python Environment & Cache
+# ===========================================
+venv/
+.venv/
+env/
+.env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ===========================================
+# Node.js Dependencies & Cache
+# ===========================================
+node_modules/
+.npm
+.yarn/
+.pnp.*
+yarn-error.log
+
+# ===========================================
+# Next.js Build Artifacts (Dev)
+# ===========================================
+.next/
+out/
+dist/
+.vercel
+next-env.d.ts
+
+# ===========================================
+# Environment Files (Security)
+# ===========================================
+.env
+.env.*
+!.env.example
+!.example.env
+
+# ===========================================
+# Testing & Coverage
+# ===========================================
+coverage/
+.nyc_output/
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+tests/
+test/
+__tests__/
+
+# ===========================================
+# Database & Storage (Dev)
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+data/
+uploads/
+
+# ===========================================
+# Docker & Container Files
+# ===========================================
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# ===========================================
+# CI/CD & GitHub
+# ===========================================
+.github/
+.gitattributes
