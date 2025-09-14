@@ -1,4 +1,5 @@
 import os
+import re
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -54,8 +55,16 @@ async def serve_frontend(path: str = ""):
     """
     Serve the frontend application. Return 404 if the file does not exist.
     """
+    # Sanitize path input to prevent traversal
+    if path and not re.match(r"^[a-zA-Z0-9_-]+$", path):
+        raise HTTPException(status_code=404, detail="Page not found")
+
     template_path = "index.html" if path == "" else f"{path}.html"
     full_path = os.path.join(frontend_dir, template_path)
+
+    # Additional security: ensure path stays within frontend_dir
+    if not os.path.abspath(full_path).startswith(os.path.abspath(frontend_dir)):
+        raise HTTPException(status_code=404, detail="Page not found")
 
     if os.path.isfile(full_path):
         return FileResponse(full_path, media_type="text/html")
