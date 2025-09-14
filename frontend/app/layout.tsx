@@ -17,16 +17,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     (route) => route === pathname || pathname.startsWith(`${route}/`)
   );
 
-  if (isPublicPage) {
-    return (
-      <html lang="en">
-        <body className="min-h-screen bg-background font-sans antialiased">
-          {children}
-          <Toaster />
-        </body>
-      </html>
-    );
-  }
+  return (
+    <html lang="en">
+      <body className="min-h-screen bg-background font-sans antialiased">
+        {isPublicPage ? children : <div>Protected content</div>}
+        <Toaster />
+      </body>
+    </html>
+  );
 };
 
 export default RootLayout;
