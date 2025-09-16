@@ -40,7 +40,7 @@ def get_url():
     """
     Get the database URL from the settings.
     """
-    return str(settings.sqlalchemy_database_uri)
+    return str(settings.database_url)
 
 
 def run_migrations_offline():
