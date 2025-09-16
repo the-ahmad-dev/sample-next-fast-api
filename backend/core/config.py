@@ -1,7 +1,8 @@
 import os
 from typing import List
 
-from pydantic import field_validator
+from pydantic import computed_field
+from pydantic_core import Url
 from pydantic_settings import BaseSettings
 
 
@@ -30,6 +31,13 @@ class Settings(BaseSettings):
     # Request Limits
     MAX_REQUEST_SIZE: int = 10 * 1024 * 1024  # 10MB default
 
+    # Database Configuration
+    DB_HOST: str = os.getenv("DB_HOST", "localhost")
+    DB_PORT: int = int(os.getenv("DB_PORT", "5432"))
+    DB_USER: str = os.getenv("DB_USER", "postgres")
+    DB_PASSWORD: str = os.getenv("DB_PASSWORD", "change-this")
+    DB_NAME: str = os.getenv("DB_NAME", "sample_app_db")
+
     @property
     def cors_origins_list(self) -> List[str]:
         """Parse comma-separated CORS origins into a list."""
@@ -45,6 +53,21 @@ class Settings(BaseSettings):
             for method in self.CORS_ALLOW_METHODS.split(",")
             if method.strip()
         ]
+
+    @computed_field
+    @property
+    def database_url(self) -> str:
+        """Build the database URL."""
+        return str(
+            Url.build(
+                scheme="postgresql",
+                username=self.DB_USER,
+                password=self.DB_PASSWORD,
+                host=self.DB_HOST,
+                port=self.DB_PORT,
+                path=self.DB_NAME,
+            )
+        )
 
     model_config = {
         "env_file": os.path.join(os.path.dirname(__file__), "../../.env"),
