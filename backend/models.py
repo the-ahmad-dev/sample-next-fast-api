@@ -32,7 +32,7 @@ class UserBase(SQLModel):
     is_active: bool = Field(default=True)
     is_admin: bool = Field(default=False)
     is_superuser: bool = Field(default=False)
-    org_id: UUID = Field(foreign_key="organization.id")
+    organization_id: UUID = Field(foreign_key="organization.id")
 
 
 class User(UserBase, table=True):
