@@ -10,7 +10,7 @@ from pydantic import BaseModel, field_validator
 from backend.api.deps import CurrentUserAllowUnverifiedDep, CurrentUserDep, SessionDep
 from backend.core.auth import create_access_token, get_pending_2fa_from_token, security
 from backend.core.exceptions import InvalidEmailFormat, InvalidPasswordFormat
-from backend.core.rate_limit import RateLimits
+from backend.core.rate_limit import rate_limit
 from backend.core.validation import (
     is_valid_email,
     is_valid_full_name,
@@ -130,7 +130,9 @@ class Auth(BaseModel):
     user: UserPublic
 
 
-@router.post("/signup", response_model=Auth, dependencies=[Depends(RateLimits.AUTH)])
+@router.post(
+    "/signup", response_model=Auth, dependencies=[Depends(rate_limit(2, hours=24))]
+)
 def signup(
     user_data: SignupRequest,
     session: SessionDep,
@@ -170,7 +172,7 @@ def signup(
 @router.post(
     "/resend-verification",
     response_model=Message,
-    dependencies=[Depends(RateLimits.RESEND)],
+    dependencies=[Depends(rate_limit(1, minutes=5))],
 )
 def resend_verification(
     current_user: CurrentUserAllowUnverifiedDep,

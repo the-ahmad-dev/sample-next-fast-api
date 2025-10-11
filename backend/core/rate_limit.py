@@ -1,6 +1,6 @@
 """
 Rate limiting configuration and utilities.
-Provides standardized rate limits for different endpoint types using fastapi-limiter.
+Provides rate limiting for endpoints using fastapi-limiter with Redis.
 """
 
 from typing import Optional
@@ -52,15 +52,34 @@ async def get_identifier(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-# Rate limit presets for different endpoint types
-class RateLimits:
-    """Standard rate limit configurations."""
+def rate_limit(
+    times: int,
+    seconds: int = 0,
+    minutes: int = 0,
+    hours: int = 0,
+    days: int = 0,
+) -> RateLimiter:
+    """
+    Create a rate limiter dependency for endpoints.
 
-    # Authentication endpoints - 2 attempts per 24 hours
-    AUTH = RateLimiter(times=2, hours=24, identifier=get_identifier)
+    Args:
+        times: Number of allowed requests
+        seconds: Time window in seconds
+        minutes: Time window in minutes
+        hours: Time window in hours
+        days: Time window in days
 
-    # Resend operations - 1 attempt per 5 minutes
-    RESEND = RateLimiter(times=1, minutes=5, identifier=get_identifier)
+    Returns:
+        RateLimiter dependency
+    """
+    return RateLimiter(
+        times=times,
+        seconds=seconds,
+        minutes=minutes,
+        hours=hours,
+        days=days,
+        identifier=get_identifier,
+    )
 
 
 async def init_rate_limiter():

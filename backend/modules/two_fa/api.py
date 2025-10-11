@@ -8,7 +8,7 @@ from pydantic import BaseModel, field_validator
 
 from backend.api.deps import CurrentUserAllowUnverifiedDep, CurrentUserDep, SessionDep
 from backend.core.auth import create_access_token
-from backend.core.rate_limit import RateLimits
+from backend.core.rate_limit import rate_limit
 from backend.core.validation import is_valid_totp
 from backend.models import UserPublic
 from backend.modules.two_fa.two_fa import two_fa_service
@@ -54,7 +54,7 @@ def setup(current_user: CurrentUserDep, session: SessionDep):
     return URL(url=url)
 
 
-@router.post("/verify", dependencies=[Depends(RateLimits.AUTH)])
+@router.post("/verify", dependencies=[Depends(rate_limit(5, minutes=15))])
 def verify(
     request: TwoFactorAuthVerifyRequest,
     current_user: CurrentUserDep,

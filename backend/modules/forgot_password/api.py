@@ -10,7 +10,7 @@ from pydantic import BaseModel, field_validator
 
 from backend.api.deps import SessionDep
 from backend.core.exceptions import InvalidEmailFormat, InvalidPasswordFormat
-from backend.core.rate_limit import RateLimits
+from backend.core.rate_limit import rate_limit
 from backend.core.validation import is_valid_email, is_valid_password, normalize_email
 from backend.modules.user.user import user_service
 
@@ -57,7 +57,9 @@ class Message(BaseModel):
     message: str
 
 
-@router.post("/", response_model=Message, dependencies=[Depends(RateLimits.AUTH)])
+@router.post(
+    "/", response_model=Message, dependencies=[Depends(rate_limit(3, hours=1))]
+)
 def request(
     data: ForgotPasswordRequest,
     background_tasks: BackgroundTasks,
