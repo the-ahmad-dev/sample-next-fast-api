@@ -57,7 +57,6 @@ def rate_limit(
     seconds: int = 0,
     minutes: int = 0,
     hours: int = 0,
-    days: int = 0,
 ) -> RateLimiter:
     """
     Create a rate limiter dependency for endpoints.
@@ -67,7 +66,6 @@ def rate_limit(
         seconds: Time window in seconds
         minutes: Time window in minutes
         hours: Time window in hours
-        days: Time window in days
 
     Returns:
         RateLimiter dependency
@@ -77,7 +75,6 @@ def rate_limit(
         seconds=seconds,
         minutes=minutes,
         hours=hours,
-        days=days,
         identifier=get_identifier,
     )
 
