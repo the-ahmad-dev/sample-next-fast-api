@@ -3,6 +3,7 @@ Validation utilities for input data.
 Provides reusable validators that return True/False.
 """
 
+import base64
 import re
 
 # Email validation regex (RFC 5322 simplified)
@@ -21,6 +22,10 @@ SIGNUP_TOKEN_LENGTH = 6
 
 # TOTP token requirements
 TOTP_TOKEN_LENGTH = 6
+
+# Profile picture requirements
+MAX_PROFILE_PICTURE_SIZE = 5 * 1024 * 1024  # 5MB in bytes
+ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"]
 
 
 def is_valid_email(email: str) -> bool:
@@ -78,3 +83,36 @@ def is_valid_totp(token: str) -> bool:
     if not token:
         return False
     return len(token) == TOTP_TOKEN_LENGTH and token.isdigit()
+
+
+def is_valid_profile_picture(data: str) -> bool:
+    """Validate base64 profile picture data."""
+    if not data or not isinstance(data, str):
+        return False
+
+    # Check if it's a data URI (data:image/...;base64,...)
+    if not data.startswith("data:image/"):
+        return False
+
+    # Extract mime type and base64 data
+    try:
+        header, base64_data = data.split(",", 1)
+    except ValueError:
+        return False
+
+    # Validate mime type
+    mime_type = header.split(";")[0].replace("data:", "")
+    if mime_type not in ALLOWED_IMAGE_TYPES:
+        return False
+
+    # Validate base64 encoding
+    try:
+        decoded = base64.b64decode(base64_data, validate=True)
+    except Exception:
+        return False
+
+    # Check size (decoded)
+    if len(decoded) > MAX_PROFILE_PICTURE_SIZE:
+        return False
+
+    return True

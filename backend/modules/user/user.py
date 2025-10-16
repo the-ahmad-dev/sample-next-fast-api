@@ -168,6 +168,34 @@ class UserService:
 
         return user
 
+    def update_profile_picture(
+        self, session: Session, user_id: UUID, profile_picture: str
+    ) -> User:
+        """Update user profile picture with base64 data."""
+        user = user_db.get_by_id(session, user_id)
+        if not user:
+            raise UserNotFound(str(user_id))
+
+        # Update profile picture
+        user.profile_picture = profile_picture
+        user.updated_at = datetime.now()
+        session.flush()
+
+        return user
+
+    def remove_profile_picture(self, session: Session, user_id: UUID) -> User:
+        """Remove user profile picture."""
+        user = user_db.get_by_id(session, user_id)
+        if not user:
+            raise UserNotFound(str(user_id))
+
+        # Remove profile picture
+        user.profile_picture = None
+        user.updated_at = datetime.now()
+        session.flush()
+
+        return user
+
     def verify_signup(self, session: Session, user_id: UUID, signup_token: str) -> User:
         """Verify user signup with user_id and 6-digit signup token."""
         user = user_db.get_by_id(session, user_id)

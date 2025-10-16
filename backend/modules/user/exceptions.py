@@ -80,3 +80,12 @@ class InvalidFullName(AppException):
 
     def __init__(self):
         super().__init__(self.MESSAGE, status_code=400)
+
+
+class InvalidProfilePicture(AppException):
+    """Raised when profile picture data is invalid."""
+
+    MESSAGE = "Invalid profile picture. Must be a valid image (JPEG, PNG, GIF, WebP) under 5MB"
+
+    def __init__(self):
+        super().__init__(self.MESSAGE, status_code=400)

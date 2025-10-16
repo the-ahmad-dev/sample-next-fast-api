@@ -26,7 +26,7 @@ class UserBase(SQLModel):
     signup_verified: Optional[datetime] = Field(default=None)
     signup_token: Optional[str] = Field(default=None, max_length=255)
     auth_provider: str = Field(default="sample", max_length=50)
-    avatar_url: Optional[str] = Field(default=None, max_length=500)
+    profile_picture: Optional[str] = Field(default=None)
     is_admin: bool = Field(default=False, nullable=False)
 
 
@@ -51,7 +51,7 @@ class UserPublic(SQLModel):
     full_name: str
     signup_verified: Optional[datetime]
     auth_provider: str
-    avatar_url: Optional[str]
+    profile_picture: Optional[str]
     is_admin: bool
     two_fa_enabled: bool
     pending_2fa: bool = False
@@ -93,3 +93,19 @@ class ForgotPassword(ForgotPasswordBase, BaseModel, table=True):
     user_id: UUID = Field(foreign_key="user.id", index=True)
 
     user: "User" = Relationship(back_populates="forgot_password_tokens")
+
+
+class BookDemoBase(SQLModel):
+    """Base book demo model."""
+
+    name: str = Field(min_length=1, max_length=300)
+    email: str = Field(min_length=1, max_length=255, index=True)
+    company_name: str = Field(min_length=1, max_length=300)
+    message: Optional[str] = Field(default=None, max_length=500)
+    status: str = Field(default="pending", max_length=50)
+
+
+class BookDemo(BookDemoBase, BaseModel, table=True):
+    """Book demo requests from potential customers."""
+
+    __tablename__ = "book_demo"

@@ -15,6 +15,7 @@ from backend.core.validation import (
     is_valid_email,
     is_valid_full_name,
     is_valid_password,
+    is_valid_profile_picture,
     is_valid_signup_token,
     normalize_email,
     normalize_full_name,
@@ -25,6 +26,7 @@ from backend.modules.two_fa.two_fa import two_fa_service
 from .background import send_verification_email_task, send_welcome_email_task
 from .exceptions import (
     InvalidFullName,
+    InvalidProfilePicture,
     InvalidSignupToken,
     UserAlreadyVerified,
 )
@@ -113,6 +115,18 @@ class ChangePasswordRequest(BaseModel):
         """Validate new password."""
         if not is_valid_password(v):
             raise InvalidPasswordFormat()
+        return v
+
+
+class UpdateProfilePictureRequest(BaseModel):
+    profile_picture: str
+
+    @field_validator("profile_picture")
+    @classmethod
+    def validate_profile_picture_field(cls, v: str) -> str:
+        """Validate profile picture."""
+        if not is_valid_profile_picture(v):
+            raise InvalidProfilePicture()
         return v
 
 
@@ -292,3 +306,38 @@ def change_password(
     session.commit()
 
     return Message(message="Password changed successfully")
+
+
+@router.post(
+    "/profile-picture",
+    response_model=UserPublic,
+    dependencies=[Depends(rate_limit(5, hours=1))],
+)
+def update_profile_picture(
+    current_user: CurrentUserDep,
+    data: UpdateProfilePictureRequest,
+    session: SessionDep,
+):
+    """Upload or update current user's profile picture."""
+    user = user_service.update_profile_picture(
+        session, current_user.id, data.profile_picture
+    )
+
+    # Commit
+    session.commit()
+
+    return user_to_public(user)
+
+
+@router.delete("/profile-picture", response_model=UserPublic)
+def remove_profile_picture(
+    current_user: CurrentUserDep,
+    session: SessionDep,
+):
+    """Remove current user's profile picture."""
+    user = user_service.remove_profile_picture(session, current_user.id)
+
+    # Commit
+    session.commit()
+
+    return user_to_public(user)
