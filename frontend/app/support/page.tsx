@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { Footer } from "@/components/landing/footer";
 import { Navigation } from "@/components/landing/navigation";
 import { APP_NAME } from "@/config/app";
+import { usePageTitle } from "@/hooks/use-page-title";
 
+import { BookDemo } from "./components/book-demo";
 import { ChatFiles } from "./components/chat-files";
 import { ChatXero } from "./components/chat-xero";
 import { ConnectXero } from "./components/connect-xero";
@@ -16,6 +18,7 @@ import { GettingStarted } from "./components/getting-started";
 import { TableOfContents } from "./components/table-of-contents";
 
 export default function SupportPage() {
+  usePageTitle(`Support & Documentation - ${APP_NAME}`);
   const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
@@ -58,6 +61,7 @@ export default function SupportPage() {
     { id: "chat-files", title: "Chat with Files" },
     { id: "data-flow", title: "Data Flow" },
     { id: "faqs", title: "FAQs" },
+    { id: "book-demo", title: "Book a Demo" },
   ];
 
   return (
@@ -86,6 +90,7 @@ export default function SupportPage() {
               <ChatFiles />
               <DataFlow />
               <FAQs />
+              <BookDemo />
               <ContactSupport />
             </div>
           </div>

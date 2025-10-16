@@ -51,6 +51,14 @@ MODULES = [
         prefix="/forgot-password",
         tags=["Forgot Password"],
     ),
+    ModuleConfig(
+        name="book_demo",
+        router=lambda: __import__(
+            "backend.modules.book_demo.api", fromlist=["router"]
+        ).router,
+        prefix="/book-demo",
+        tags=["Book Demo"],
+    ),
 ]
 
 
