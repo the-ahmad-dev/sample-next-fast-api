@@ -127,7 +127,7 @@ border-input        // Input field borders (adapts to theme)
 #### Status Colors
 ```tsx
 bg-destructive              // Error backgrounds
-text-destructive-foreground // Text on destructive bg
+text-destructive-foreground // Text on destructive bg 
 ```
 
 ### Legacy Brand Colors (For Reference)

@@ -1,116 +1,187 @@
 # Sample
 
-Sample is a platform designed to retrieve user data from the Xero website for their organization. Users can ask the chatbot questions related to their data.
+Modern full-stack web application with FastAPI backend and Next.js 15 frontend.
 
-## Overview
+## Features
 
-The project consists of two main components:
+- **Authentication** - JWT tokens, 2FA (TOTP), email verification
+- **User Management** - Profile, password management, OAuth-ready
+- **Security** - Rate limiting (Redis), password hashing (bcrypt)
+- **Modern Stack** - FastAPI, Next.js 15, React 19, TypeScript, PostgreSQL
+- **Developer Experience** - Auto-generated API client, hot reload, type safety
 
-1. **Django Web Application:**
-   - Frontend and backend functionalities are implemented using Django.
-   - SQL is used as the database to store and manage data.
-   - We use Stripe for Payment
-   - We used the GPT-4o model from OpenAI for question answering.
+## Tech Stack
 
-2. **Azure Serverless function:**
-   - Azure Serverless function are utilized to fetch data from the Xero..
-   - The retrieved data from the Xero of Accounting API is stored in the following tables.:
-     - Accounts
-     - Attachment
-     - Bank Transaction
-     - Budget
-     - Contacts
-     - Credit Notes
-     - Employee
-     - Expense Claims
-     - Invoices
-     - Item
-     - Journals
-     - Payment
-     - Ourchase Order
-     - Quotes
-     - Receipts
-     - Reports
-       - Aged Paybale by Contacts
-       - Aged Receiveable by Contacts
-       - Balance Sheet
-       - Budget Summary
-       - Profit and Loss
-       - Trial Balance
+**Backend:**
 
-## Merge `development` to `production` branch
+- Python 3.11, FastAPI 0.115, SQLModel
+- PostgreSQL, Redis, SendGrid
 
-We are using forward merging to merge the `development` branch to the `production` branch.
+**Frontend:**
 
-1. Create a pull request to merge the `development` branch to the `production` branch.
+- Next.js 15, React 19, TypeScript
+- Tailwind CSS, shadcn/ui
 
-2. To merge the `development` branch to the `production` branch, run these commands in your terminal (GitHub does not support forward merging, so you have to do it manually in your terminal):
+## Quick Start
 
-    ```bash
-    git pull
-    git checkout production
-    git merge origin/development
-    git push origin production
-    ```
+### Prerequisites
 
-## Getting Started
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL 13+
+- Redis
+- pnpm
 
-To set up and run the project locally, follow these steps:
+### Installation
 
+1. **Clone and setup:**
 
-1. Clone the repository:
+   ```bash
+   git clone https://github.com/the-ahmad-dev/sample-next-fast-api.git
+   cd sample-next-fast-api
+   ```
 
-    ```bash
-    git clone https://github.com/triplek-tech/sample.git
-    cd sample/web-app
-    ```
+2. **Backend:**
 
-2. Make Virtual Environment:
+   ```bash
+   # Create virtual environment
+   python3 -m venv venv
+   source venv/bin/activate
 
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
+   # Install dependencies
+   ./venv/bin/pip install -r requirements.txt
 
-3. Install Dependencies:
+   # Configure environment
+   cp .env.example .env
+   # Edit .env with your settings
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+   # Start Redis
+   docker run -d --name redis -p 6379:6379 redis:alpine
 
-4. Run Migrations:
+   # Run migrations
+   alembic upgrade head
 
-    ```bash
-    python manage.py makemigrations
-    python manage.py migrate
-    ```
+   # Start server
+   ./venv/bin/python -m uvicorn main:app --reload
+   ```
 
-5. Run Server:
+   Backend runs on http://localhost:8000
 
-    ```bash
-      python manage.py runserver
-    ```
+3. **Frontend:**
 
-6. Access the application in your web browser at `http://localhost:8000`
+   ```bash
+   cd frontend
+   pnpm install
+   pnpm generate-client  # Generate API client from backend
+   pnpm dev
+   ```
 
+   Frontend runs on http://localhost:3000
 
-Azure Lambda Functions
-To set up and run the AWS Lambda functions locally, follow these steps:
+## Development
 
-2- cd data-engineering
-3- install requirements using the command `pip install -r requirements.txt`
-4- func start
-You can see 2 endpoints
-  1-http://localhost:7071/api/accounts
-  2-http://localhost:7071/api/aged_payable_by_contacts
-  3-http://localhost:7071/api/aged_receiveable_by_contacts
-  4-http://localhost:7071/api/get_tokens
-  5-http://localhost:7071/api/reports
-  6-http://localhost:7071/api/split_accounts
+### Code Formatting
 
-Environment Variables
-Ensure to set the necessary environment variables for the azure serverless functions, including API keys and other configurations.
+```bash
+# Python (required after every change)
+./venv/bin/isort backend/ --profile black
+./venv/bin/black backend/
 
-Contributing
-Contributions are welcome! If you have any suggestions, improvements, or bug fixes, please feel free to open an issue or create a pull request.
+# Frontend
+cd frontend && pnpm lint
+```
 
+### Database Migrations
+
+```bash
+alembic revision --autogenerate -m "Description"
+alembic upgrade head
+```
+
+### Testing
+
+```bash
+./venv/bin/pytest
+```
+
+## Architecture
+
+This project follows a layered architecture pattern:
+
+```
+API Layer → Service Layer → DB Layer → Model Layer
+```
+
+- **One session per request, one commit per endpoint**
+- **Centralized exception handling**
+- **Modular system** with lazy-loaded feature modules
+- **Rate limiting** (per-user for authenticated, per-IP for anonymous)
+
+For detailed architecture guidelines, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+## Documentation
+
+- **ARCHITECTURE.md** - Complete backend architecture and patterns
+- **CLAUDE.md** - Development guide and commands
+- **frontend/DESIGN_SYSTEM.md** - Frontend design system
+- **API Docs** - http://localhost:8000/docs (Swagger UI)
+
+## Project Structure
+
+```
+sample-next-fast-api/
+├── backend/              # FastAPI application
+│   ├── core/             # Core utilities (auth, db, email, rate limiting)
+│   ├── modules/          # Feature modules (user, two_fa, forgot_password)
+│   └── models.py         # Database models
+├── frontend/             # Next.js 15 application
+│   ├── app/              # App Router pages
+│   ├── components/       # React components
+│   ├── lib/              # Utilities (auth, token, error handling)
+│   └── constants/        # Design tokens
+├── main.py               # FastAPI entry point
+├── alembic.ini           # Database migrations config
+└── requirements.txt      # Python dependencies
+```
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and configure:
+
+```bash
+# Essential variables
+APP_NAME=Sample
+JWT_SECRET_KEY=your-secret-key
+POSTGRES_DB=sample_db
+POSTGRES_PASSWORD=your-password
+REDIS_URL=redis://localhost:6379/0
+SENDGRID_API_KEY=your-api-key
+```
+
+See `.env.example` for complete list.
+
+## Deployment
+
+### Docker
+
+```bash
+docker build -t sample:latest .
+docker run -d -p 8000:8000 sample:latest
+```
+
+### Manual
+
+1. Configure all environment variables
+2. Run migrations: `alembic upgrade head`
+3. Start backend: `uvicorn main:app`
+4. Build frontend: `cd frontend && pnpm build`
+5. Serve frontend with backend or separately
+
+## License
+
+Proprietary
+
+## Support
+
+- **Issues:** https://github.com/the-ahmad-dev/sample-next-fast-api/issues
+- **Documentation:** See ARCHITECTURE.md and CLAUDE.md
