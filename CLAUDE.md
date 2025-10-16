@@ -323,16 +323,23 @@ Rate limiting protects endpoints from abuse using Redis-backed counters that wor
 **Configuration (`backend/core/rate_limit.py`):**
 
 ```python
-from fastapi_limiter.depends import RateLimiter
+from backend.core.rate_limit import rate_limit
 
-class RateLimits:
-    """Standard rate limit configurations."""
+# Use rate_limit() to define limits inline on endpoints
+@router.post("/endpoint", dependencies=[Depends(rate_limit(1, minutes=60))])
+def endpoint():
+    """1 request per 60 minutes"""
+    pass
 
-    # Authentication endpoints - 2 attempts per 24 hours
-    AUTH = RateLimiter(times=2, hours=24, identifier=get_identifier)
+@router.post("/endpoint", dependencies=[Depends(rate_limit(5, seconds=30))])
+def endpoint():
+    """5 requests per 30 seconds"""
+    pass
 
-    # Resend operations - 1 attempt per 5 minutes
-    RESEND = RateLimiter(times=1, minutes=5, identifier=get_identifier)
+@router.post("/endpoint", dependencies=[Depends(rate_limit(100, hours=1))])
+def endpoint():
+    """100 requests per hour"""
+    pass
 ```
 
 **Identifier Function:**
@@ -368,16 +375,30 @@ async def get_identifier(request: Request) -> str:
 
 ```python
 from fastapi import Depends
-from backend.core.rate_limit import RateLimits
+from backend.core.rate_limit import rate_limit
 
-@router.post("/login", dependencies=[Depends(RateLimits.AUTH)])
-def login(data: LoginRequest, session: SessionDep):
-    """Login user - rate limited to 2 attempts per 24 hours."""
+# Signup - 2 attempts per 24 hours
+@router.post("/signup", dependencies=[Depends(rate_limit(2, hours=24))])
+def signup(data: SignupRequest, session: SessionDep):
+    """Sign up a new user."""
     ...
 
-@router.post("/resend-verification", dependencies=[Depends(RateLimits.RESEND)])
+# Resend verification - 1 attempt per 5 minutes
+@router.post("/resend-verification", dependencies=[Depends(rate_limit(1, minutes=5))])
 def resend_verification(current_user: CurrentUserAllowUnverifiedDep):
-    """Resend email - rate limited to 1 attempt per 5 minutes."""
+    """Resend verification email."""
+    ...
+
+# Forgot password - 3 attempts per hour
+@router.post("/forgot-password", dependencies=[Depends(rate_limit(3, hours=1))])
+def forgot_password(data: ForgotPasswordRequest):
+    """Request password reset."""
+    ...
+
+# 2FA verification - 5 attempts per 15 minutes
+@router.post("/2fa/verify", dependencies=[Depends(rate_limit(5, minutes=15))])
+def verify_2fa(data: TwoFactorAuthVerifyRequest):
+    """Verify 2FA code."""
     ...
 ```
 
@@ -446,10 +467,12 @@ docker-compose up -d redis
 
 **Best Practices:**
 
-- Use `AUTH` for authentication endpoints (login, signup, verify-signup)
-- Use `RESEND` for email/notification triggers
-- Add more rate limit categories as needed for your endpoints
-- Adjust times/periods based on your security requirements
+- ✅ Use `rate_limit()` to define limits inline on endpoints
+- ✅ **Authentication endpoints**: 2-5 attempts per hour/day (prevents brute force)
+- ✅ **Email/notification triggers**: 1-3 per 5-15 minutes (prevents spam)
+- ✅ **API calls**: 10-100 per minute/hour (prevents DoS)
+- ✅ **Rate limit parameters**: `times`, `seconds`, `minutes`, `hours`
+- ✅ Adjust limits based on your security and usability requirements
 
 ### FastAPI Dependencies
 
@@ -1115,17 +1138,16 @@ def get_users(session: Session, skip: int = 0, limit: int = 100) -> List[User]:
 
 ### Rate Limiting
 
-25. ✅ Use `Depends(RateLimits.AUTH)` for authentication endpoints
-26. ✅ Use `Depends(RateLimits.RESEND)` for email/notification triggers
-27. ✅ Rate limits use user ID if authenticated, IP if not
-28. ✅ Redis required for production (Azure Cache for Redis)
+25. ✅ Use `Depends(rate_limit(times, minutes=X))` for all rate-limited endpoints
+26. ✅ Rate limits use user ID if authenticated, IP if not
+27. ✅ Redis required for production (Azure Cache for Redis)
 
 ### Naming
 
-29. ✅ Use `APP_VERSION`, `APP_NAME` (not `VERSION`, `PROJECT_NAME`)
-30. ✅ Remove "Response" suffix from response models (Auth not AuthResponse)
-31. ✅ Keep "Request" suffix for request models (SignupRequest)
-32. ✅ Service/DB methods: clean names without resource prefix (get not get_user)
+28. ✅ Use `APP_VERSION`, `APP_NAME` (not `VERSION`, `PROJECT_NAME`)
+29. ✅ Remove "Response" suffix from response models (Auth not AuthResponse)
+30. ✅ Keep "Request" suffix for request models (SignupRequest)
+31. ✅ Service/DB methods: clean names without resource prefix (get not get_user)
 
 ## Quick Reference
 
