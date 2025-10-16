@@ -15,15 +15,10 @@ class TOTPService:
         """Generate a new base32 secret for TOTP."""
         return pyotp.random_base32()
 
-    def get(self, secret: str) -> pyotp.TOTP:
-        """Get a TOTP object for the given secret."""
+    def verify(self, secret: str, token: str, valid_window: int = 1) -> bool:
+        """Verify a TOTP token (accepts previous/current/next 30s window)."""
         totp = pyotp.TOTP(secret)
-        return totp.now()
-
-    def verify(self, secret: str, token: str) -> bool:
-        """Verify a TOTP token against the given secret."""
-        totp = pyotp.TOTP(secret)
-        return totp.verify(int(token))
+        return totp.verify(int(token), valid_window=valid_window)
 
     def generate_uri(self, secret: str, user_email: str) -> str:
         """Generate a provisioning URI for the TOTP."""

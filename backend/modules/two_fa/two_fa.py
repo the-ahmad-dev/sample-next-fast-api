@@ -32,9 +32,8 @@ class TwoFactorAuthService:
         if not two_fa:
             raise TwoFANotFound()
 
-        # Get current TOTP value and compare
-        totp_from_lib = totp_service.get(two_fa.totp_secret)
-        if totp != totp_from_lib:
+        # Verify the token
+        if not totp_service.verify(two_fa.totp_secret, totp):
             raise InvalidTotpCode()
 
         # Enable 2FA
