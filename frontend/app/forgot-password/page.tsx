@@ -9,10 +9,13 @@ import { AuthButton } from "@/components/auth/auth-button";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthInput } from "@/components/auth/auth-input";
 import { AuthLayout } from "@/components/auth/auth-layout";
+import { APP_NAME } from "@/config/app";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { handleError } from "@/lib/error";
 import { ERROR_MESSAGES, isValidEmail, normalizeEmail } from "@/lib/validation";
 
 export default function ForgotPasswordPage() {
+  usePageTitle(`Forgot Password - ${APP_NAME}`);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);

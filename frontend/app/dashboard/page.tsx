@@ -1,9 +1,12 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
+import { APP_NAME } from "@/config/app";
 import { useUser } from "@/contexts/user-context";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function DashboardPage() {
+  usePageTitle(`Dashboard - ${APP_NAME}`);
   const { user } = useUser();
 
   return (

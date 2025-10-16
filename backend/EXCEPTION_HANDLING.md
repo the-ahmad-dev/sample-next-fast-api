@@ -1,6 +1,6 @@
 # Exception Handling Architecture
 
-This document explains the exception handling pattern used in the Sample backend.
+This document explains the exception handling pattern used in the Sample App backend.
 
 ## Overview
 

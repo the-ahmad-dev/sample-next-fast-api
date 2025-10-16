@@ -1,4 +1,4 @@
-# Sample AI Frontend - Perfect Code Structure
+# Sample App Frontend - Perfect Code Structure
 
 ## 🎯 **Optimal File Organization**
 
@@ -144,7 +144,7 @@ types/chat.ts                   # Type definitions (kebab-case)
 ### **Single Source of Truth: `app/globals.css`**
 ```css
 @tailwind base;
-@tailwind components;
+@tailwind components;  
 @tailwind utilities;
 
 /* Only browser-specific fixes and complex animations */

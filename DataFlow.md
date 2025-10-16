@@ -1,4 +1,4 @@
-# Medial-AI
+# Sample-AI
 
 ## High-Level User Flow
 

@@ -8,6 +8,16 @@ export type Auth = {
     user: UserPublic;
 };
 
+/**
+ * Request model for booking a demo.
+ */
+export type BookDemoRequest = {
+    name: string;
+    email: string;
+    company_name: string;
+    message?: (string | null);
+};
+
 export type ChangePasswordRequest = {
     old_password: string;
     new_password: string;
@@ -49,6 +59,10 @@ export type TwoFactorAuthVerifyRequest = {
     totp: string;
 };
 
+export type UpdateProfilePictureRequest = {
+    profile_picture: string;
+};
+
 export type UpdateUserRequest = {
     full_name?: (string | null);
 };
@@ -66,7 +80,7 @@ export type UserPublic = {
     full_name: string;
     signup_verified: (string | null);
     auth_provider: string;
-    avatar_url: (string | null);
+    profile_picture: (string | null);
     is_admin: boolean;
     two_fa_enabled: boolean;
     pending_2fa?: boolean;
@@ -83,6 +97,22 @@ export type ValidationError = {
 export type VerifySignupRequest = {
     signup_token: string;
 };
+
+export type CreateApiV1BookDemoPostData = {
+    requestBody: BookDemoRequest;
+};
+
+export type CreateApiV1BookDemoPostResponse = (Message);
+
+export type ServeIconIconPngGetResponse = (unknown);
+
+export type ServeAppleIconAppleIconPngGetResponse = (unknown);
+
+export type ServeFaviconIcoFaviconIcoGetResponse = (unknown);
+
+export type ServeLogoPngLogoPngGetResponse = (unknown);
+
+export type ServeLogoSvgLogoSvgGetResponse = (unknown);
 
 export type ServeVideoVideoFilePathGetData = {
     filePath: string;
@@ -167,3 +197,11 @@ export type ChangePasswordApiV1UserChangePasswordPostData = {
 };
 
 export type ChangePasswordApiV1UserChangePasswordPostResponse = (Message);
+
+export type UpdateProfilePictureApiV1UserProfilePicturePostData = {
+    requestBody: UpdateProfilePictureRequest;
+};
+
+export type UpdateProfilePictureApiV1UserProfilePicturePostResponse = (UserPublic);
+
+export type RemoveProfilePictureApiV1UserProfilePictureDeleteResponse = (UserPublic);

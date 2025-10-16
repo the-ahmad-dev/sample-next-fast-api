@@ -39,7 +39,7 @@ export const SPACING = {
 } as const;
 
 export const COLORS = {
-  // Brand Colors
+  // Brand Colors  
   PRIMARY: "sample-blue-500",
   PRIMARY_DARK: "sample-blue-600",
 

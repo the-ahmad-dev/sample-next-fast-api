@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/config/app";
 import { ANIMATIONS, COMPONENT_CLASSES } from "@/constants/ui";
@@ -20,19 +22,23 @@ export function Footer() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
-              <Button
-                size="lg"
-                className={`${COMPONENT_CLASSES.BUTTON_PRIMARY} font-bold`}
-              >
-                Start Free Trial
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className={`border-2 border-white text-white bg-transparent hover:bg-white hover:text-black font-bold px-8 ${ANIMATIONS.TRANSITION_DEFAULT}`}
-              >
-                Book a demo
-              </Button>
+              <Link href="/signup" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  className={`${COMPONENT_CLASSES.BUTTON_PRIMARY} font-bold w-full`}
+                >
+                  Start Free Trial
+                </Button>
+              </Link>
+              <Link href="/support#book-demo" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className={`border-2 border-white text-white bg-transparent hover:bg-white hover:text-black font-bold px-8 ${ANIMATIONS.TRANSITION_DEFAULT} w-full`}
+                >
+                  Book a demo
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

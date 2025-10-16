@@ -9,6 +9,8 @@ import { AuthButton } from "@/components/auth/auth-button";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthInput } from "@/components/auth/auth-input";
 import { AuthLayout } from "@/components/auth/auth-layout";
+import { APP_NAME } from "@/config/app";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { handleError } from "@/lib/error";
 import { saveToken } from "@/lib/token";
 import {
@@ -21,6 +23,7 @@ import {
 } from "@/lib/validation";
 
 export default function SignupPage() {
+  usePageTitle(`Sign Up - ${APP_NAME}`);
   const router = useRouter();
 
   const [fullName, setFullName] = useState("");

@@ -1,8 +1,8 @@
-# Sample AI - Frontend Design System
+# Sample App - Frontend Design System
 
 ## Overview
 
-This document defines the complete design system for the Sample AI frontend application. All components, pages, and features **MUST** follow these guidelines to ensure consistency and professionalism across the entire application.
+This document defines the complete design system for the Sample App frontend application. All components, pages, and features **MUST** follow these guidelines to ensure consistency and professionalism across the entire application.
 
 ---
 
@@ -43,7 +43,7 @@ This document defines the complete design system for the Sample AI frontend appl
 
 ### Dark/Light Mode Theming
 
-**Sample AI supports both light and dark modes** using `next-themes` and CSS variables. All colors automatically adapt to the selected theme.
+**Sample App supports both light and dark modes** using `next-themes` and CSS variables. All colors automatically adapt to the selected theme.
 
 #### Theme Provider Setup
 
@@ -1202,4 +1202,4 @@ When adding new design patterns:
 ---
 
 **Last Updated**: January 10, 2025
-**Maintained By**: Sample AI Development Team
+**Maintained By**: Sample App Development Team

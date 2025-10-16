@@ -1,7 +1,8 @@
 import { Sparkles } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { COMPONENT_CLASSES, DIMENSIONS, SPACING } from "@/constants/ui";
+import { COMPONENT_CLASSES, DIMENSIONS } from "@/constants/ui";
 
 export function HeroSection() {
   return (
@@ -25,26 +26,33 @@ export function HeroSection() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className={COMPONENT_CLASSES.BUTTON_PRIMARY}>
-                Start free trial
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className={COMPONENT_CLASSES.BUTTON_SECONDARY}
-              >
-                Book a demo
-              </Button>
+              <Link href="/signup">
+                <Button
+                  size="lg"
+                  className={`${COMPONENT_CLASSES.BUTTON_PRIMARY} w-full sm:w-auto`}
+                >
+                  Start free trial
+                </Button>
+              </Link>
+              <Link href="/support#book-demo">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className={`${COMPONENT_CLASSES.BUTTON_SECONDARY} w-full sm:w-auto`}
+                >
+                  Book a demo
+                </Button>
+              </Link>
             </div>
           </div>
 
           {/* Right Column - Chat Demo */}
-          <div className="relative">
+          <div className="relative mt-8 lg:mt-0">
             {/* Xero Integration Icon */}
-            <div className="absolute top-0 right-8 z-10">
-              <div className="bg-card rounded-full p-4 shadow-sample-sm border border-border">
-                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold">
+            <div className="absolute -top-6 right-4 sm:right-8 z-10 hidden sm:block">
+              <div className="bg-card rounded-full p-2 sm:p-3 lg:p-4 shadow-sample-sm border border-border">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-primary rounded-full flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-xs sm:text-sm lg:text-base">
                     XERO
                   </span>
                 </div>
@@ -52,14 +60,14 @@ export function HeroSection() {
             </div>
 
             <div
-              className={`bg-card ${DIMENSIONS.RADIUS_FULL} shadow-sample ${SPACING.CARD_PADDING} space-y-4 border border-border`}
+              className={`bg-card ${DIMENSIONS.RADIUS_FULL} shadow-sample p-4 sm:p-5 lg:p-6 space-y-4 border border-border`}
             >
               {/* Question */}
               <div className="flex gap-3">
-                <div className="w-10 h-10 bg-accent rounded-full flex-shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-accent rounded-full flex-shrink-0">
                   <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-500 rounded-full"></div>
                 </div>
-                <div className="bg-primary text-primary-foreground rounded-2xl rounded-tl-sm px-6 py-4 max-w-xs">
+                <div className="bg-primary text-primary-foreground rounded-2xl rounded-tl-sm px-4 py-3 sm:px-5 sm:py-3.5 lg:px-6 lg:py-4 max-w-[280px] sm:max-w-xs">
                   <p className="text-sm font-medium">
                     What were the total sales and net profits for the quarter
                     ending December 31, 2024?
@@ -69,14 +77,12 @@ export function HeroSection() {
 
               {/* Answer */}
               <div className="flex gap-3">
-                <div className="w-10 h-10 bg-primary rounded-full flex-shrink-0 flex items-center justify-center">
-                  <div
-                    className={`${SPACING.ICON_SIZE_LG} text-primary-foreground font-bold`}
-                  >
+                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-primary rounded-full flex-shrink-0 flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-base sm:text-lg">
                     M
-                  </div>
+                  </span>
                 </div>
-                <div className="bg-muted border border-border rounded-2xl rounded-tl-sm px-6 py-4 shadow-sample-sm flex-1">
+                <div className="bg-muted border border-border rounded-2xl rounded-tl-sm px-4 py-3 sm:px-5 sm:py-3.5 lg:px-6 lg:py-4 shadow-sample-sm flex-1">
                   <p className="text-sm text-foreground leading-relaxed">
                     According to our financial records, the total sales for the
                     quarter ending December 31, 2024, were{" "}
@@ -92,7 +98,7 @@ export function HeroSection() {
               </div>
 
               {/* Suggestions */}
-              <div className="flex gap-2 pl-13">
+              <div className="flex flex-col sm:flex-row gap-2 pl-12 sm:pl-12 lg:pl-13">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -113,14 +119,12 @@ export function HeroSection() {
             </div>
 
             {/* File Integration Icon */}
-            <div className="absolute bottom-4 right-0 z-10">
-              <div className="bg-card rounded-full p-3 shadow-sample-sm border border-border">
+            <div className="absolute -bottom-4 right-2 sm:right-0 sm:bottom-4 z-10 hidden sm:block">
+              <div className="bg-card rounded-full p-2 sm:p-3 shadow-sample-sm border border-border">
                 <div
-                  className={`w-12 h-12 bg-muted ${DIMENSIONS.RADIUS_SM} flex items-center justify-center`}
+                  className={`w-10 h-10 sm:w-12 sm:h-12 bg-muted ${DIMENSIONS.RADIUS_SM} flex items-center justify-center`}
                 >
-                  <div
-                    className={`${SPACING.ICON_SIZE_LG} bg-accent rounded`}
-                  ></div>
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-accent rounded"></div>
                 </div>
               </div>
             </div>

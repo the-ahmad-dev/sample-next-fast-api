@@ -8,12 +8,15 @@ import { AuthButton } from "@/components/auth/auth-button";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { CodeInput } from "@/components/auth/code-input";
+import { APP_NAME } from "@/config/app";
 import { useUser } from "@/contexts/user-context";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { handleError } from "@/lib/error";
 import { saveToken } from "@/lib/token";
 import { ERROR_MESSAGES, isValid6DigitCode } from "@/lib/validation";
 
 export default function Verify2FAPage() {
+  usePageTitle(`Two-Factor Authentication - ${APP_NAME}`);
   const router = useRouter();
   const { setUser } = useUser();
 

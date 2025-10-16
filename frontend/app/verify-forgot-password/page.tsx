@@ -9,10 +9,13 @@ import { AuthButton } from "@/components/auth/auth-button";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthInput } from "@/components/auth/auth-input";
 import { AuthLayout } from "@/components/auth/auth-layout";
+import { APP_NAME } from "@/config/app";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { handleError } from "@/lib/error";
 import { ERROR_MESSAGES, isValidPassword } from "@/lib/validation";
 
 function VerifyForgotPasswordContent() {
+  usePageTitle(`Reset Password - ${APP_NAME}`);
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";

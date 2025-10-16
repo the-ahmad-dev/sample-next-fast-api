@@ -2,17 +2,35 @@
 
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/config/app";
-import { COMPONENT_CLASSES, LANDING_STYLES, SPACING } from "@/constants/ui";
+import { COMPONENT_CLASSES, LANDING_STYLES } from "@/constants/ui";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
-    <nav className="bg-muted border-b border-border h-14 sticky top-0 z-50">
+    <nav className="bg-muted border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
@@ -33,7 +51,9 @@ export function Navigation() {
               <Link href="#faqs" className={LANDING_STYLES.NAV_LINK}>
                 FAQs
               </Link>
-              <button className={LANDING_STYLES.NAV_LINK}>Book a Demo</button>
+              <Link href="/support#book-demo" className={LANDING_STYLES.NAV_LINK}>
+                Book a Demo
+              </Link>
               <Link href="/support" className={LANDING_STYLES.NAV_LINK}>
                 Support
               </Link>
@@ -59,49 +79,87 @@ export function Navigation() {
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
+              type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className={COMPONENT_CLASSES.BUTTON_GHOST}
+              className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+              aria-label="Toggle menu"
             >
-              {isOpen ? (
-                <X className={SPACING.ICON_SIZE} />
-              ) : (
-                <Menu className={SPACING.ICON_SIZE} />
-              )}
-            </Button>
+              <div className="relative w-5 h-5">
+                <Menu
+                  className={`absolute inset-0 h-5 w-5 transform transition-all duration-300 ${
+                    isOpen ? "rotate-180 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
+                  }`}
+                />
+                <X
+                  className={`absolute inset-0 h-5 w-5 transform transition-all duration-300 ${
+                    isOpen ? "rotate-0 scale-100 opacity-100" : "-rotate-180 scale-0 opacity-0"
+                  }`}
+                />
+              </div>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation Backdrop */}
       {isOpen && (
-        <div className="md:hidden bg-muted border-t border-border">
-          <div className="px-4 pt-2 pb-3 space-y-1">
-            <Link href="#security" className={LANDING_STYLES.NAV_LINK_MOBILE}>
-              Security
-            </Link>
-            <Link href="#faqs" className={LANDING_STYLES.NAV_LINK_MOBILE}>
-              FAQs
-            </Link>
-            <button
-              className={`${LANDING_STYLES.NAV_LINK_MOBILE} w-full text-left`}
-            >
-              Book a Demo
-            </button>
-            <Link href="/support" className={LANDING_STYLES.NAV_LINK_MOBILE}>
-              Support
-            </Link>
-            <div className="pt-4 pb-3 border-t border-border space-y-3">
-              <Link href="/signup">
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity duration-300 ease-in-out"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Mobile Navigation Menu */}
+      <div
+        className={`fixed top-14 right-0 w-full sm:w-80 h-[calc(100vh-3.5rem)] bg-background border-l border-border z-50 md:hidden transform transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          <div className="flex-1 overflow-y-auto">
+            <div className="px-4 pt-6 pb-3 space-y-1">
+              <Link
+                href="#security"
+                className={`${LANDING_STYLES.NAV_LINK_MOBILE} transition-colors`}
+                onClick={() => setIsOpen(false)}
+              >
+                Security
+              </Link>
+              <Link
+                href="#faqs"
+                className={`${LANDING_STYLES.NAV_LINK_MOBILE} transition-colors`}
+                onClick={() => setIsOpen(false)}
+              >
+                FAQs
+              </Link>
+              <Link
+                href="/support#book-demo"
+                className={`${LANDING_STYLES.NAV_LINK_MOBILE} transition-colors`}
+                onClick={() => setIsOpen(false)}
+              >
+                Book a Demo
+              </Link>
+              <Link
+                href="/support"
+                className={`${LANDING_STYLES.NAV_LINK_MOBILE} transition-colors`}
+                onClick={() => setIsOpen(false)}
+              >
+                Support
+              </Link>
+            </div>
+          </div>
+
+          <div className="p-4 border-t border-border">
+            <div className="flex flex-col gap-3">
+              <Link href="/signup" onClick={() => setIsOpen(false)} className="block">
                 <Button
                   className={`${COMPONENT_CLASSES.BUTTON_PRIMARY} w-full`}
                 >
                   Start free trial
                 </Button>
               </Link>
-              <Link href="/login">
+              <Link href="/login" onClick={() => setIsOpen(false)} className="block">
                 <Button
                   variant="outline"
                   className={`${COMPONENT_CLASSES.BUTTON_SECONDARY} w-full`}
@@ -112,7 +170,7 @@ export function Navigation() {
             </div>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

@@ -9,6 +9,8 @@ import { AuthButton } from "@/components/auth/auth-button";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthInput } from "@/components/auth/auth-input";
 import { AuthLayout } from "@/components/auth/auth-layout";
+import { APP_NAME } from "@/config/app";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { handleError } from "@/lib/error";
 import { saveToken } from "@/lib/token";
 import {
@@ -19,6 +21,7 @@ import {
 } from "@/lib/validation";
 
 export default function LoginPage() {
+  usePageTitle(`Login - ${APP_NAME}`);
   const router = useRouter();
 
   const [email, setEmail] = useState("");

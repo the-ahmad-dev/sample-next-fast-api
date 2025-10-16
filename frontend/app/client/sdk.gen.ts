@@ -3,9 +3,97 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ServeVideoVideoFilePathGetData, ServeVideoVideoFilePathGetResponse, ServeImagesImagesFilePathGetData, ServeImagesImagesFilePathGetResponse, ServeFrontendPathGetData, ServeFrontendPathGetResponse, RequestApiV1ForgotPasswordPostData, RequestApiV1ForgotPasswordPostResponse, VerifyApiV1ForgotPasswordVerifyPostData, VerifyApiV1ForgotPasswordVerifyPostResponse, CheckApiV1HealthGetResponse, SetupApiV1TwoFaSetupGetResponse, VerifyApiV1TwoFaVerifyPostData, VerifyApiV1TwoFaVerifyPostResponse, VerifyCodeApiV1TwoFaVerifyCodePostData, VerifyCodeApiV1TwoFaVerifyCodePostResponse, DisableApiV1TwoFaDisablePostResponse, SignupApiV1UserSignupPostData, SignupApiV1UserSignupPostResponse, ResendVerificationApiV1UserResendVerificationPostResponse, VerifySignupApiV1UserVerifySignupPostData, VerifySignupApiV1UserVerifySignupPostResponse, LoginApiV1UserLoginPostData, LoginApiV1UserLoginPostResponse, GetMeApiV1UserMeGetResponse, UpdateApiV1UserPutData, UpdateApiV1UserPutResponse, DeleteApiV1UserDeleteResponse, ChangePasswordApiV1UserChangePasswordPostData, ChangePasswordApiV1UserChangePasswordPostResponse } from './types.gen';
+import type { CreateApiV1BookDemoPostData, CreateApiV1BookDemoPostResponse, ServeIconIconPngGetResponse, ServeAppleIconAppleIconPngGetResponse, ServeFaviconIcoFaviconIcoGetResponse, ServeLogoPngLogoPngGetResponse, ServeLogoSvgLogoSvgGetResponse, ServeVideoVideoFilePathGetData, ServeVideoVideoFilePathGetResponse, ServeImagesImagesFilePathGetData, ServeImagesImagesFilePathGetResponse, ServeFrontendPathGetData, ServeFrontendPathGetResponse, RequestApiV1ForgotPasswordPostData, RequestApiV1ForgotPasswordPostResponse, VerifyApiV1ForgotPasswordVerifyPostData, VerifyApiV1ForgotPasswordVerifyPostResponse, CheckApiV1HealthGetResponse, SetupApiV1TwoFaSetupGetResponse, VerifyApiV1TwoFaVerifyPostData, VerifyApiV1TwoFaVerifyPostResponse, VerifyCodeApiV1TwoFaVerifyCodePostData, VerifyCodeApiV1TwoFaVerifyCodePostResponse, DisableApiV1TwoFaDisablePostResponse, SignupApiV1UserSignupPostData, SignupApiV1UserSignupPostResponse, ResendVerificationApiV1UserResendVerificationPostResponse, VerifySignupApiV1UserVerifySignupPostData, VerifySignupApiV1UserVerifySignupPostResponse, LoginApiV1UserLoginPostData, LoginApiV1UserLoginPostResponse, GetMeApiV1UserMeGetResponse, UpdateApiV1UserPutData, UpdateApiV1UserPutResponse, DeleteApiV1UserDeleteResponse, ChangePasswordApiV1UserChangePasswordPostData, ChangePasswordApiV1UserChangePasswordPostResponse, UpdateProfilePictureApiV1UserProfilePicturePostData, UpdateProfilePictureApiV1UserProfilePicturePostResponse, RemoveProfilePictureApiV1UserProfilePictureDeleteResponse } from './types.gen';
+
+export class BookDemoService {
+    /**
+     * Create
+     * Submit a new demo request.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static createApiV1BookDemoPost(data: CreateApiV1BookDemoPostData): CancelablePromise<CreateApiV1BookDemoPostResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/book-demo/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+}
 
 export class DefaultService {
+    /**
+     * Serve Icon
+     * Serve favicon icon.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static serveIconIconPngGet(): CancelablePromise<ServeIconIconPngGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/icon.png'
+        });
+    }
+    
+    /**
+     * Serve Apple Icon
+     * Serve Apple touch icon.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static serveAppleIconAppleIconPngGet(): CancelablePromise<ServeAppleIconAppleIconPngGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/apple-icon.png'
+        });
+    }
+    
+    /**
+     * Serve Favicon Ico
+     * Serve favicon.ico.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static serveFaviconIcoFaviconIcoGet(): CancelablePromise<ServeFaviconIcoFaviconIcoGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/favicon.ico'
+        });
+    }
+    
+    /**
+     * Serve Logo Png
+     * Serve logo PNG.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static serveLogoPngLogoPngGet(): CancelablePromise<ServeLogoPngLogoPngGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/logo.png'
+        });
+    }
+    
+    /**
+     * Serve Logo Svg
+     * Serve logo SVG.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static serveLogoSvgLogoSvgGet(): CancelablePromise<ServeLogoSvgLogoSvgGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/logo.svg'
+        });
+    }
+    
     /**
      * Serve Video
      * Serve video files from out/video directory.
@@ -336,6 +424,39 @@ export class UsersService {
             errors: {
                 422: 'Validation Error'
             }
+        });
+    }
+    
+    /**
+     * Update Profile Picture
+     * Upload or update current user's profile picture.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateProfilePictureApiV1UserProfilePicturePost(data: UpdateProfilePictureApiV1UserProfilePicturePostData): CancelablePromise<UpdateProfilePictureApiV1UserProfilePicturePostResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/user/profile-picture',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Remove Profile Picture
+     * Remove current user's profile picture.
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static removeProfilePictureApiV1UserProfilePictureDelete(): CancelablePromise<RemoveProfilePictureApiV1UserProfilePictureDeleteResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/user/profile-picture'
         });
     }
     

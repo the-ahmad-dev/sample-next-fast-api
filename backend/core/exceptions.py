@@ -48,3 +48,12 @@ class InvalidPasswordFormat(AppException):
 
     def __init__(self, message: str | None = None):
         super().__init__(message or self.MESSAGE, status_code=400)
+
+
+class InvalidValue(AppException):
+    """Raised when a provided value is invalid."""
+
+    MESSAGE = "Invalid value provided"
+
+    def __init__(self, message: str | None = None):
+        super().__init__(message or self.MESSAGE, status_code=400)
