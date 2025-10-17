@@ -70,6 +70,10 @@ class Settings(BaseModel):
         "PASSWORD_RESET_TOKEN_EXPIRY_HOURS"
     )
 
+    # Google OAuth
+    GOOGLE_OAUTH_CLIENT_ID: str = get_env("GOOGLE_OAUTH_CLIENT_ID")
+    GOOGLE_OAUTH_CLIENT_SECRET: str = get_env("GOOGLE_OAUTH_CLIENT_SECRET")
+
     @computed_field
     @property
     def database_uri(self) -> str:
